@@ -1,91 +1,158 @@
-# Snake Game AI with Deep Q-Learning (DQN)
+# 🐍 Snake Game AI with Deep Q-Learning (DQN)
 
-This project is an implementation of a Snake game AI using **Deep Q-Learning** (DQN) in **PyTorch**. The AI learns to control the Snake by interacting with the game environment, aiming to eat food, avoid boundaries, prevent self-collisions, and optimize its strategy to maximize its score. The project includes a custom game environment (`SnakeEnv`), where the agent explores different actions and learns through reinforcement learning.
+An AI-powered Snake game built with **Deep Q-Learning (DQN)** using **PyTorch**. The agent learns to survive, eat food, and avoid self-collision and walls by interacting with a custom game environment.
 
-## Features
+---
 
-- **Deep Q-Learning (DQN)**: The AI agent learns by exploring the environment, updating Q-values using a neural network.
-- **Custom Game Environment**: The environment simulates the classic Snake game, incorporating game mechanics such as food spawning, movement, boundary checks, and collision detection.
-- **Training Loop**: The training process involves experience collection, Q-network updates, and an epsilon-greedy policy for exploration.
-- **Visualization**: Training progress and AI performance are visualized, showing how the AI improves over time.
+## 📌 Features
 
-## Project Structure
+- 🧠 Deep Q-Learning with experience replay and epsilon-greedy strategy
+- 🎮 Fully custom Snake environment built from scratch
+- 📊 Real-time visualization of training progress
+- 💾 Model saving and testing
+- 🧱 Modular codebase (easy to extend or experiment)
 
-- **`dqn_agent.py`**: Contains the implementation of the Deep Q-Learning agent, which interacts with the environment and learns from experiences.
-- **`snake_env.py`**: Defines the Snake game environment, including the rules of the game, state space, reward system, and actions.
-- **`main.py`**: The entry point for running the game and testing the AI. It initializes the environment and the agent and allows you to see how the AI performs in the game.
-- **`train.py`**: Script for training the agent, including the setup of hyperparameters, the training loop, and model saving. This is where the main learning process takes place.
+---
 
-## Technologies Used
+## 🗂️ Project Structure
 
-- **Python**: The main programming language for the project.
-- **PyTorch**: Used for building and training the neural network for Q-learning.
-- **NumPy**: Utilized for handling arrays and matrix operations.
-- **Matplotlib** (optional for visualization): Used for visualizing the training process.
+```
+snake-dqn/
+├── dqn_agent.py       # DQN model and logic for the agent
+├── snake_env.py       # Custom Snake environment (gym-like)
+├── train.py           # Training loop and visualization
+├── main.py            # Test/play the trained AI agent
+├── requirements.txt   # Python dependencies
+└── README.md          # Project documentation
+```
 
-## Installation
+---
 
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/yourusername/snake-game-ai.git
-   cd snake-game-ai
-Install the required dependencies:
+## ⚙️ Installation
 
-bash
-Copy
-Edit
+### 1. Clone the Repository
+```bash
+git clone https://github.com/yourusername/snake-dqn.git
+cd snake-dqn
+```
+
+### 2. Install Dependencies
+Make sure you have Python 3.7 or higher installed.
+
+```bash
 pip install -r requirements.txt
-Ensure you have Python 3.x and pip installed. You can check this by running:
+```
 
-bash
-Copy
-Edit
-python --version
-pip --version
-(Optional) Set up a virtual environment for isolated dependency management:
-
-bash
-Copy
-Edit
+### 3. (Optional) Create and Activate a Virtual Environment
+```bash
 python -m venv venv
-source venv/bin/activate   # On Windows, use `venv\Scripts\activate`
-How to Run
-Train the AI: To train the AI using Deep Q-Learning, run:
+# On Windows:
+venv\Scripts\activate
+# On macOS/Linux:
+source venv/bin/activate
+```
 
-bash
-Copy
-Edit
+---
+
+## 🧪 How to Run the Project
+
+### 🎓 Train the AI Agent
+```bash
 python train.py
-This will begin the training process and save the model after training.
+```
+- Starts training using Deep Q-Learning
+- Saves model as `model.pth` after training
+- Visualizes rewards and scores if plotting is enabled
 
-Test the AI: Once the model is trained, you can test it by running:
-
-bash
-Copy
-Edit
+### 🕹️ Test the Trained Agent
+```bash
 python main.py
-This will start the game with the trained AI controlling the Snake.
+```
+- Loads the trained model (`model.pth`)
+- Plays the Snake game using the AI
+- View the gameplay in a Pygame window
 
-Visualize the Training Process: During the training process, you can modify the script to visualize the performance of the AI. You can use libraries like matplotlib to plot rewards over time or visualize the agent's actions in real-time.
+---
 
-Hyperparameters
-The following hyperparameters are used in the training process:
+## 🛠️ Hyperparameters (Defined in `train.py`)
 
-Learning Rate: The step size for updating Q-values.
+| Parameter         | Description                                       |
+|-------------------|---------------------------------------------------|
+| `gamma`           | Discount factor for future rewards                |
+| `epsilon`         | Exploration rate (decreases over time)            |
+| `lr`              | Learning rate for optimizer                       |
+| `batch_size`      | Number of experiences per training step           |
+| `max_memory`      | Replay buffer size                                |
+| `episodes`        | Number of episodes to train the agent             |
 
-Gamma (Discount Factor): The discount factor used to calculate the discounted future reward.
+Feel free to tweak these to improve training results.
 
-Epsilon (Exploration Rate): The probability of selecting a random action during training (epsilon-greedy policy).
+---
 
-Batch Size: The number of experiences sampled from the replay buffer during each training step.
+## 🎮 Game Rules
 
-Replay Buffer Size: The maximum size of the replay buffer, which stores past experiences for training.
+- The snake starts at length 1 and moves automatically
+- Eating food increases the snake’s length and score
+- Colliding with a wall or itself ends the game
+- Rewards:
+  - `+10` for eating food
+  - `-10` for dying
+  - `-0.1` for each step (to encourage faster food seeking)
 
-These parameters can be adjusted in the train.py script.
+---
 
-Game Rules
-The Snake starts with a length of 1 and grows each time it eats food.
+## 📊 Visualization
 
-The goal is to eat food while avoiding collisions with the walls and the Snake's own body.
+You can enable reward/scores plotting using `matplotlib` inside `train.py`.  
+This will help visualize the AI's progress over episodes.
 
-The game ends when the Snake collides with itself or the boundaries.
+---
+
+## 📦 Requirements
+
+All required packages are listed in `requirements.txt`. Install using:
+```bash
+pip install -r requirements.txt
+```
+
+Sample content:
+```
+torch
+numpy
+matplotlib
+pygame
+```
+
+---
+
+## 🧠 Tech Stack
+
+- **Python 3.7+**
+- **PyTorch** - neural network and Q-learning
+- **NumPy** - numerical operations
+- **Matplotlib** - training graph plotting
+- **Pygame** - rendering the Snake game
+
+---
+
+## ✅ Future Improvements
+
+- Use Double DQN or Dueling DQN
+- Add CNN-based state representation
+- Save training history and metrics
+- Web-based visualization of gameplay
+
+---
+
+## 📄 License
+
+This project is licensed under the **MIT License**.  
+You're free to use, modify, and distribute it.
+
+---
+
+## 🙌 Acknowledgments
+
+- Inspired by DeepMind's DQN paper
+- Thanks to Python, PyTorch, and Pygame communities
+- Made with ❤️ by Ashwin
